@@ -12,6 +12,7 @@ import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
+import es.maracrowler.madrid2015.RnRMadrid2015;
 
 public class MyCrawler extends WebCrawler {
 
@@ -46,14 +47,10 @@ public class MyCrawler extends WebCrawler {
 
          if (page.getParseData() instanceof HtmlParseData) {
              HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
-             String text = htmlParseData.getText();
+//             String text = htmlParseData.getText();
              String html = htmlParseData.getHtml();
              
-//             System.out.println(html);
-             
-             getDataStringBuilder(html);
-			
-            
+             RnRMadrid2015.getDataStringBuilder(html);     
              
              Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
@@ -62,48 +59,4 @@ public class MyCrawler extends WebCrawler {
 //             System.out.println("Number of outgoing links: " + links.size());
          }
     }
-
-	private void getDataStringBuilder(String html) {
-		Document doc = Jsoup.parseBodyFragment(html);
-		 
-		 StringBuilder sb = new StringBuilder();
-		 
-		 System.out.println(doc.getElementsByClass("nombreCorredor").html());
-		 sb.append(doc.getElementsByClass("nombreCorredor").html()).append(";");
-		 
-		 
-		 Elements elementsByClass = doc.getElementsByClass("datosDetalle");
-		 if(elementsByClass!=null && elementsByClass.size()!=0){
-			 // Datos personales
-			 Element datos0 = elementsByClass.get(0);
-			 Elements ebt0 = datos0.getElementsByTag("td");
-			 for (int i = 0; i <=4 ; i++) {
-				String field = ebt0.get(5+i).html();
-				// Si es pais solo las 3 ultimas letras
-				if(i==3 && field!=null && !"".equals(field) && field.length()>3){
-					field = field.substring(field.length()-3, field.length());
-				}
-				sb.append(field).append(";");
-			 }
-			 System.out.println(sb);
-			 
-			 // Puestos
-			 Element datos1 = elementsByClass.get(1);
-			 Elements ebt1 = datos1.getElementsByTag("td");
-			 for (int i = 0; i <=2 ; i++) {
-				 String field = ebt1.get(3+i).html();
-				 sb.append(field).append(";");
-			 }
-			 System.out.println(sb);
-
-			 
-			 // Pustos de control
-			 Element datos2 = elementsByClass.get(2);
-			 Elements ebt2 = datos2.getElementsByTag("td"); 
-			 for (int j = 0; j <=59; j++) {
-				sb.append(ebt2.get(6+(j)).ownText()+ ";");
-			 }
-			 System.out.println(sb);
-		 }
-	}
 }

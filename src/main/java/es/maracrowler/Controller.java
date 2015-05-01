@@ -17,6 +17,8 @@ public class Controller {
 
         CrawlConfig config = new CrawlConfig();
         config.setCrawlStorageFolder(crawlStorageFolder);
+        // To only crawl the pages which you added as a seed, set the MaxDepthOfCrawling to 0.
+        config.setMaxDepthOfCrawling(0);
 
         /*
          * Instantiate the controller for this crawl.
