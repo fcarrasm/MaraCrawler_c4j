@@ -1,18 +1,16 @@
 package es.maracrowler;
 
-import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 import es.maracrowler.madrid2015.RnRMadrid2015;
+import es.maracrowler.utils.MaraUtils;
 
 public class MyCrawler extends WebCrawler {
 
@@ -47,16 +45,31 @@ public class MyCrawler extends WebCrawler {
 
          if (page.getParseData() instanceof HtmlParseData) {
              HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
-//             String text = htmlParseData.getText();
+             // String text = htmlParseData.getText();
              String html = htmlParseData.getHtml();
              
-             RnRMadrid2015.getDataStringBuilder(html);     
+//             System.out.println(html);
              
-             Set<WebURL> links = htmlParseData.getOutgoingUrls();
+             // PARSE HTML
+             Document doc = Jsoup.parseBodyFragment(html);
+
+             
+//             RnRMadrid2015.getBibs2015(doc,"dorsalesMediaMadrid2015.properties");
+             
+             // MARATON DE MADRID 2015
+//             String dataRunnerM = RnRMadrid2015.getDataRunnersMaraton(doc);   
+//             MaraUtils.writeFileLine("RnRMadrid2015.csv", dataRunnerM, false);
+             
+             // MEDIA MARATON DE MADRID 2015
+             String dataRunnerMM = RnRMadrid2015.getDataRunnersMediaMaraton(doc);   
+             MaraUtils.writeFileLine("MediaRnRMadrid2015.csv", dataRunnerMM, false);
+             
+              // Set<WebURL> links = htmlParseData.getOutgoingUrls();
 
 //             System.out.println("Text length: " + text.length());
 //             System.out.println("Html length: " + html.length());
 //             System.out.println("Number of outgoing links: " + links.size());
          }
     }
+
 }
